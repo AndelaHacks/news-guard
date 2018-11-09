@@ -9,6 +9,8 @@
     "permissions":[
         "tabs",
         "webRequest",
-        "notifications"
-    ]
+        "notifications",
+        "tabs"
+    ],
+    "content_security_policy": "script-src 'self' https://www.gstatic.com/firebasejs/5.5.8/firebase.js https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"
 }
