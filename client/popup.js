@@ -9,6 +9,30 @@ document.addEventListener(
       })
     }
 
+    const flagSite = data =>{
+      var config = {
+        apiKey: 'AIzaSyDKLEwwB1-gXOZTho9-eiidUfIviLtdsKQ',
+        authDomain: 'news-guard.firebaseapp.com',
+        databaseURL: 'https://news-guard.firebaseio.com',
+        projectId: 'news-guard',
+        storageBucket: '',
+        messagingSenderId: '83048333417'
+      }
+
+      firebase.initializeApp(config)
+
+      const database = firebase.database()
+      const flaggedRef = database.ref(`flagged_articles`)
+
+
+
+      flaggedRef.set(data)
+
+      flaggedRef.on('value', function(snapshot) {
+        console.log(snapshot)
+      })
+    }
+
     const extractHostname = (url) => {
         let hostname
         //find & remove protocol (http, ftp, etc.) and get hostname
@@ -30,21 +54,6 @@ document.addEventListener(
 
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       const currentTab = tabs[0]
-      console.log(currentTab.url)
-
-      var config = {
-        apiKey: 'AIzaSyDKLEwwB1-gXOZTho9-eiidUfIviLtdsKQ',
-        authDomain: 'news-guard.firebaseapp.com',
-        databaseURL: 'https://news-guard.firebaseio.com',
-        projectId: 'news-guard',
-        storageBucket: '',
-        messagingSenderId: '83048333417'
-      }
-
-      firebase.initializeApp(config)
-
-      const database = firebase.database()
-      const flaggedRef = database.ref(`flagged_articles`)
 
       const fake = {
         id: uuidv4(),
@@ -53,13 +62,8 @@ document.addEventListener(
         time: new Date()
       }
 
-      console.log(fake)
-
-      flaggedRef.set(fake)
-
-      flaggedRef.on('value', function(snapshot) {
-        console.log(snapshot)
-      })
+      flagSite(fake)
+     
     })
   },
   false

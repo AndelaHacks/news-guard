@@ -7,7 +7,6 @@
         "default_title":"News Guard"
     },
     "permissions":[
-        "tabs",
         "webRequest",
         "notifications",
         "tabs"
