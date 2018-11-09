@@ -44,6 +44,7 @@ document.addEventListener(
       firebase.initializeApp(config)
 
       const database = firebase.database()
+      const flaggedRef = database.ref(`flagged_articles`)
 
       const fake = {
         id: uuidv4(),
@@ -54,7 +55,11 @@ document.addEventListener(
 
       console.log(fake)
 
-      database.ref(`flagged_articles`).set(fake);
+      flaggedRef.set(fake)
+
+      flaggedRef.on('value', function(snapshot) {
+        console.log(snapshot)
+      })
     })
   },
   false
