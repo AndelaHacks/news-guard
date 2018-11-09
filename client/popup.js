@@ -22,6 +22,9 @@ document.addEventListener(
 
       firebase.initializeApp(config)
 
+      
+      console.log(getIP())
+
       const database = firebase.database()
       const flaggedRef = database.ref(`flagged_articles/${domain.replace(/\./g, "_")}`)
        flaggedRef.once('value').then(function(snapshot) {
@@ -35,6 +38,16 @@ document.addEventListener(
       });
       return ;
       
+    }
+
+    const getIP = ()=>{
+      var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "http://icanhazip.com/", false);
+    xhr.send();
+
+      var result = xhr.responseText;
+      return result
     }
 
     const extractHostname = (url) => {
