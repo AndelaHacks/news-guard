@@ -44,13 +44,13 @@ document.addEventListener(
       firebase.initializeApp(config)
 
       const database = firebase.database()
-      const flaggedRef = database.ref(`flagged_articles`)
+      const flaggedRef = database.ref(`flagged_articles/${extractHostname(currentTab.url).replace(/\./g, "_")}`)
 
       const fake = {
-        id: uuidv4(),
         url: currentTab.url,
-        domain: extractHostname(currentTab.url),
-        time: new Date()
+        // domain: extractHostname(currentTab.url),
+        time: new Date(),
+        count: 1
       }
 
       console.log(fake)
