@@ -24,12 +24,17 @@ document.addEventListener(
 
       const database = firebase.database()
       const flaggedRef = database.ref(`flagged_articles/${domain.replace(/\./g, "_")}`)
-
-      flaggedRef.once('value', snapshot => {
-          console.log(snapshot.toJSON())
-      })
-
-      flaggedRef.set(data)
+       flaggedRef.once('value').then(function(snapshot) {
+          let article = snapshot.val() 
+          if(article.url === data.url){
+              article.count += 1
+              return flaggedRef.update(article)
+          }else{
+            flaggedRef.set(data)
+          }
+      });
+      return ;
+      
     }
 
     const extractHostname = (url) => {
@@ -56,8 +61,6 @@ document.addEventListener(
     flag.addEventListener("click", () => {
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             const currentTab = tabs[0]
-            console.log(currentTab.url)
-
             const fake = {
                 url: currentTab.url,
                 time: new Date(),
