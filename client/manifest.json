@@ -1,0 +1,13 @@
+{
+    "name":"BBC Fighting Fake News",
+    "version":"1.0",
+    "manifest_version":2,
+    "browser_action":{
+        "default_popup":"popup.html",
+        "default_title":"BBC Fighting Fake News"
+    },
+    "permissions":[
+        "tabs"
+    ],
+    "content_security_policy": "script-src 'self' https://www.gstatic.com/firebasejs/5.5.8/firebase.js object-src 'self'"
+}
