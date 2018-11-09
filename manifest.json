@@ -1,12 +1,14 @@
 {
-    "name":"BBC Fighting Fake News",
+    "name":"News Guard",
     "version":"1.0",
     "manifest_version":2,
     "browser_action":{
         "default_popup":"popup.html",
-        "default_title":"BBC Fighting Fake News"
+        "default_title":"News Guard"
     },
     "permissions":[
-        "tabs"
+        "tabs",
+        "webRequest",
+        "notifications"
     ]
 }
