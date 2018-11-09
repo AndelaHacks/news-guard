@@ -1,7 +1,6 @@
 document.addEventListener(
   'DOMContentLoaded',
   () => {
-
     let currentTab
     const uuidv4 = () => {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
@@ -11,8 +10,8 @@ document.addEventListener(
       })
     }
 
-    const flagSite = data =>{
-      var config = {
+    const flagSite = (data, domain) => {
+      const config = {
         apiKey: 'AIzaSyDKLEwwB1-gXOZTho9-eiidUfIviLtdsKQ',
         authDomain: 'news-guard.firebaseapp.com',
         databaseURL: 'https://news-guard.firebaseio.com',
@@ -24,15 +23,13 @@ document.addEventListener(
       firebase.initializeApp(config)
 
       const database = firebase.database()
-      const flaggedRef = database.ref(`flagged_articles`)
+      const flaggedRef = database.ref(`flagged_articles/${domain.replace(/\./g, "_")}`)
 
-
+      flaggedRef.once('value', snapshot => {
+          console.log(snapshot.toJSON())
+      })
 
       flaggedRef.set(data)
-
-      flaggedRef.on('value', function(snapshot) {
-        console.log(snapshot)
-      })
     }
 
     const extractHostname = (url) => {
@@ -54,34 +51,32 @@ document.addEventListener(
         return hostname
     }
 
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-       currentTab = tabs[0]
+    const flag = document.getElementById("flag")
+    
+    flag.addEventListener("click", () => {
+        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            const currentTab = tabs[0]
+            console.log(currentTab.url)
+
+            const fake = {
+                url: currentTab.url,
+                time: new Date(),
+                count: 1
+            }
+    
+            flagSite(fake, extractHostname(currentTab.url))
+            show(`${currentTab.url} has been flagged as fake news site`)
+        })
     })
 
-      const database = firebase.database()
-      const flaggedRef = database.ref(`flagged_articles/${extractHostname(currentTab.url).replace(/\./g, "_")}`)
-
-    var flag = document.getElementById("flag")
-    flag.addEventListener("click",function () {
-      const fake = {
-        url: currentTab.url,
-        // domain: extractHostname(currentTab.url),
-        time: new Date(),
-        count: 1
-      }
-        flagSite(fake)
-        show(`${currentTab.url} has been flagged as fake news site`)
-    })
-    var whitelist = document.getElementById("whitelist")
+    const whitelist = document.getElementById("whitelist")
     whitelist.addEventListener("click", function () {
-        
     })
-
   },
   false
 );
 
-function show(message="This site is most likely a fake news site") {
+const show = (message = "This site is most likely a fake news site") => {
     var time = /(..)(:..)/.exec(new Date());     
     var hour = time[1] % 12 || 12;               
     var period = time[1] < 12 ? 'a.m.' : 'p.m.'; 
@@ -90,7 +85,3 @@ function show(message="This site is most likely a fake news site") {
       body: message
     });
   }
-
-
-
-
