@@ -58,14 +58,16 @@ document.addEventListener(
        currentTab = tabs[0]
     })
 
+      const database = firebase.database()
+      const flaggedRef = database.ref(`flagged_articles/${extractHostname(currentTab.url).replace(/\./g, "_")}`)
 
     var flag = document.getElementById("flag")
     flag.addEventListener("click",function () {
       const fake = {
-        id: uuidv4(),
         url: currentTab.url,
-        domain: extractHostname(currentTab.url),
-        time: new Date()
+        // domain: extractHostname(currentTab.url),
+        time: new Date(),
+        count: 1
       }
         flagSite(fake)
         show(`${currentTab.url} has been flagged as fake news site`)
@@ -78,16 +80,6 @@ document.addEventListener(
   },
   false
 );
-
-
-
-
-// var info = {}
-// // chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-// //     const currentTab = tabs[0]
-// //     info.url = currentTab.url
-   
-// // })
 
 function show(message="This site is most likely a fake news site") {
     var time = /(..)(:..)/.exec(new Date());     
