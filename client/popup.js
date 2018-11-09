@@ -1,6 +1,8 @@
 document.addEventListener(
   'DOMContentLoaded',
   () => {
+
+    let currentTab
     const uuidv4 = () => {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
         let r = (Math.random() * 16) | 0,
@@ -53,18 +55,50 @@ document.addEventListener(
     }
 
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-      const currentTab = tabs[0]
+       currentTab = tabs[0]
+    })
 
+
+    var flag = document.getElementById("flag")
+    flag.addEventListener("click",function () {
       const fake = {
         id: uuidv4(),
         url: currentTab.url,
         domain: extractHostname(currentTab.url),
         time: new Date()
       }
-
-      flagSite(fake)
-     
+        flagSite(fake)
+        show(`${currentTab.url} has been flagged as fake news site`)
     })
+    var whitelist = document.getElementById("whitelist")
+    whitelist.addEventListener("click", function () {
+        
+    })
+
   },
   false
 );
+
+
+
+
+// var info = {}
+// // chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+// //     const currentTab = tabs[0]
+// //     info.url = currentTab.url
+   
+// // })
+
+function show(message="This site is most likely a fake news site") {
+    var time = /(..)(:..)/.exec(new Date());     
+    var hour = time[1] % 12 || 12;               
+    var period = time[1] < 12 ? 'a.m.' : 'p.m.'; 
+    new Notification(hour + time[2] + ' ' + period, {
+      icon: 'icon.png',
+      body: message
+    });
+  }
+
+
+
+
