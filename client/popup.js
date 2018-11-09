@@ -54,7 +54,7 @@ document.addEventListener(
 
       console.log(fake)
 
-    //   database.ref(`news_guard`).set(fake);
+      database.ref(`flagged_articles`).set(fake);
     })
   },
   false
