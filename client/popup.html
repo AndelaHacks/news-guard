@@ -1,9 +1,8 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
     <script src="popup.js"></script>
     <link rel="stylesheet" href="materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -23,7 +22,7 @@
                     <div class="card-action ">
                             <a href="#" style="font-weight:bold;color:red" id="flag" class="valign-wrapper"><i class="material-icons red-text">block</i> Flag </a>
                       <!-- <a href="#" id="whitelist"><i class="material-icons green-text">verified_user</i> Whitelist </a> -->
-                    </div>
+                    <!-- </div>
                   </div>
                 </div>
               </div>
@@ -33,4 +32,77 @@
                 }
               </style>
 </body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script src="popup.js"></script>
+    <script src="classDefinition.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="materialize.min.css" />
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body style="font-family:Georgia, 'Times New Roman', Times, serif">
+    <div class="row" style="width:300px; padding: 10px !important;">
+        
+          <div class="card-content black-text" style="font-size: 13px">
+            <h2 style="font-size:20px;text-align: center; font-weight: 300;" class="card-title" id="flaggedTitle"></h2>
+            <hr class="style-six" id="maliciousRule"  >
+            <div style="font-size:13px;">
+                  <div style="text-align: center">
+                                <img id="verified" class="ficha"  src="veri.png" alt="verified" style="text-align:center;height: 50px; ">
+                  </div>
+
+                  <div style="text-align: center">
+                      <p style="font-size:20px"  id="maliciousSite"></p>
+                      <hr class="style-six" id="hr">
+                                <img id="malicious" class="ficha"  src="malicious.png" alt="Malicious" style="text-align:center;height: 50px; ">
+                  </div>
+                 
+                            <p>
+                                If you find this article to be fake or biased , please help us fight fake news by flagging this article
+                              </p>
+                  <p id="flagCounts" style="text-align:center;font-weight:bold"></p>
+                  <!-- <p class="red-text"><em>It could be a fake news site</em></p> -->
+                  <hr class="style-six" id="hr">
+            </div>
+           
+          </div>
+          <div class="card-action">
+        <h2 style="font-size: 16px; text-align: center; padding: 5px; background: red; border: 1px solid red; border-radius: 15px;"><a style="text-decoration: none; color: #fff; " href="#" id="flag">
+            <i style=" font-size: 16px; float: left;" class="material-icons"> &nbsp; flag</i> Flag this article</a>
+            </a></h2>
+
+          </div> 
+            <style>
+              h2{
+                margin:10px;
+              }
+              .row{
+                margin-bottom: 0px;
+              }
+              .ficha{
+                display: none
+              }
+              hr.style-six {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+            </style>
+      
+    </div>
+  </body>
 </html>
+<!DOCTYPE html>

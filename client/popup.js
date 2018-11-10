@@ -21,26 +21,26 @@ document.addEventListener(
       let notFlagged = false ;
       database.ref("articles").once("value").then(function(snapshot){
         const flags = Object.entries(snapshot.val())
-        
-        console.log("flags")
         flags.forEach(flag => {
             if(flag[1].url === currentTab.url){
                 if (flag[1].count > 1) {
-                  document.getElementById("flaggedTitle").innerHTML = `Flagged ${flag[1].count} Times`
+                  document.getElementById("flaggedTitle").innerHTML = `Fake News Alert`
+                  document.getElementById("flagCounts").innerHTML = `Reported  by  <span id="circle"> ${flag[1].count} </span>  Users`
+                  document.getElementById("malicious").classList.remove('ficha')
+                  document.getElementById("hr").classList.add('ficha')
                   show(`This could be fake news site`)
                 }else {
-                  document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
-                  document.getElementById("verified").classList.remove('ficha')
+                  document.getElementById("flaggedTitle").innerHTML = `This is a trusted new site`
+                  // document.getElementById("malicious").classList.remove('ficha')
                   notFlagged = true 
                 }
-
             }
         });
         //TODO
         // The code above will only show verified if it's in flagged array 
         // We need to be able to show verified even when site has not been flagged 
         if (notFlagged) {
-          document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
+          document.getElementById("flaggedTitle").innerHTML = `This is a trusted new site`
           document.getElementById("verified").classList.remove('ficha')
         }
       
@@ -117,14 +117,9 @@ document.addEventListener(
                 time: new Date(),
                 count: 1
             }
-    
             flagSite(fake, extractHostname(currentTab.url))
             show(`This site has been flagged as fake news site`)
         })
-    })
-
-    const whitelist = document.getElementById("whitelist")
-    whitelist.addEventListener("click", function () {
     })
   },
   false
