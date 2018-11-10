@@ -20,22 +20,19 @@ document.addEventListener(
       const currentTab = tabs[0]
       database.ref("articles").once("value").then(function(snapshot){
         const flags = Object.entries(snapshot.val())
-        console.log(flags[0][1])
-        console.log(currentTab.url)
         flags.forEach(flag => {
             if(flag[1].url === currentTab.url){
                 if (flag[1].count > 1) {
-                  document.getElementById("flaggedTitle").innerHTML = `Flagged ${flag[1].count} Times`
+                  document.getElementById("flaggedTitle").innerHTML = `Flagged <span class="new badge">${flag[1].count}</span> Times`
                   show(`This could be fake news site`)
-                }else{
-                  verified
+                }else {
                   document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
                   document.getElementById("verified").classList.remove('ficha')
                 }
-              
-              
             }
         });
+        document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
+        document.getElementById("verified").classList.remove('ficha')
     })
   })
 
