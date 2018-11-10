@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
-    let div = document.getElementById("circle")
-    div.setAttribute("class", "cirlce-notification");
+    // let div = document.getElementById("circle")
+    // div.setAttribute("class", "cirlce-notification");
     // let threshold = 5;
     // let num = 3;
     // while (num) {
