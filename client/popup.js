@@ -30,8 +30,8 @@ document.addEventListener(
                   document.getElementById("hr").classList.add('ficha')
                   show(`This could be fake news site`)
                 }else {
-                  document.getElementById("flaggedTitle").innerHTML = `This is a trusted new site`
-                  // document.getElementById("malicious").classList.remove('ficha')
+                  document.getElementById("flaggedTitle").innerHTML = `This is a trusted news site`
+                  document.getElementById("verified").classList.remove('ficha')
                   notFlagged = true 
                 }
             }
@@ -41,7 +41,7 @@ document.addEventListener(
         // We need to be able to show verified even when site has not been flagged 
         const verified = document.getElementById("flaggedTitle").innerHTML
         const nonVerified =document.getElementById("flaggedTitle").innerHTML
-        if (verified !== "This is a trusted new site" && nonVerified !== "Fake News Alert" ) {
+        if (verified !== "This is a trusted news site" && nonVerified !== "Fake News Alert" ) {
           document.getElementById("flaggedTitle").innerHTML = `News Guard`
         }
       
