@@ -1,7 +1,45 @@
 document.addEventListener(
   'DOMContentLoaded',
   () => {
+    const config = {
+      apiKey: 'AIzaSyDKLEwwB1-gXOZTho9-eiidUfIviLtdsKQ',
+      authDomain: 'news-guard.firebaseapp.com',
+      databaseURL: 'https://news-guard.firebaseio.com',
+      projectId: 'news-guard',
+      storageBucket: '',
+      messagingSenderId: '83048333417'
+    }
+
+    firebase.initializeApp(config)
+
     let currentTab
+  
+
+    const database = firebase.database()
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      const currentTab = tabs[0]
+      database.ref("articles").once("value").then(function(snapshot){
+        const flags = Object.entries(snapshot.val())
+        console.log(flags[0][1])
+        console.log(currentTab.url)
+        flags.forEach(flag => {
+            if(flag[1].url === currentTab.url){
+                if (flag[1].count > 1) {
+                  document.getElementById("flaggedTitle").innerHTML = `Flagged ${flag[1].count} Times`
+                  show(`This could be fake news site`)
+                }else{
+                  verified
+                  document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
+                  document.getElementById("verified").classList.remove('ficha')
+                }
+              
+              
+            }
+        });
+    })
+  })
+
+
     const uuidv4 = () => {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
         let r = (Math.random() * 16) | 0,
@@ -11,29 +49,11 @@ document.addEventListener(
     }
 
     const flagSite = (data, domain) => {
-      const config = {
-        apiKey: 'AIzaSyDKLEwwB1-gXOZTho9-eiidUfIviLtdsKQ',
-        authDomain: 'news-guard.firebaseapp.com',
-        databaseURL: 'https://news-guard.firebaseio.com',
-        projectId: 'news-guard',
-        storageBucket: '',
-        messagingSenderId: '83048333417'
-      }
-
-      firebase.initializeApp(config)
-
-      
-      console.log(getIP())
-
-      const database = firebase.database()
-      const articlesRef = database.ref(`articles/${domain.replace(/\./g, "_")}`)
-      const flaggers = database.ref(`flaggers/articles`)
-
+    const articlesRef = database.ref(`articles/${domain.replace(/\./g, "_")}`)
       const ip = getIP().replace(/\n/g,'')
        articlesRef.once('value').then(function(snapshot) {
           let article = snapshot.val() 
-        
-
+      
           if( article && article.url === data.url && !article.users.includes(ip) ){
               article.count += 1
               articlesRef.child("users").push(ip)

@@ -7,25 +7,30 @@
     <script src="popup.js"></script>
     <link rel="stylesheet" href="materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 
 </head>
 <body>
         <div class="row" style="height:400px;width:300px">
                 <div class="col s12 m6">
-                  <div class="card ">
+                  <div class="card center-align">
                     <div class="card-content black-text">
-                      <span class="card-title">Flagged Sites </span>
-                            <p>This site has been flagged 5 times </p>
-                            <p class="orange-text">It could be a fake news site</p>
+                      <span class="card-title " id="flaggedTitle" style="font-size:30px"></span>
+                            <!-- <p id="flaggedTitle">This site has been flagged </p> -->
+                            <p class="orange-text" id="cleanSite"></p>
+                            <img id="verified" class="ficha"  src="verified.png" alt="verified" style="text-align:center;height: 50px; ">
                     </div>
                     <div class="card-action">
                             <a href="#" id="flag"><i class="material-icons red-text">block</i> Flag </a>
-                      <a href="#" id="whitelist"><i class="material-icons green-text">verified_user</i> Whitelist </a>
-                     
-                      
+                      <!-- <a href="#" id="whitelist"><i class="material-icons green-text">verified_user</i> Whitelist </a> -->
                     </div>
                   </div>
                 </div>
               </div>
+              <style>
+                .ficha{
+                  display: none
+                }
+              </style>
 </body>
 </html>
