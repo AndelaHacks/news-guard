@@ -18,21 +18,32 @@ document.addEventListener(
     const database = firebase.database()
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       const currentTab = tabs[0]
+      let notFlagged = false ;
       database.ref("articles").once("value").then(function(snapshot){
         const flags = Object.entries(snapshot.val())
+        
+        console.log("flags")
         flags.forEach(flag => {
             if(flag[1].url === currentTab.url){
                 if (flag[1].count > 1) {
-                  document.getElementById("flaggedTitle").innerHTML = `Flagged <span class="new badge">${flag[1].count}</span> Times`
+                  document.getElementById("flaggedTitle").innerHTML = `Flagged ${flag[1].count} Times`
                   show(`This could be fake news site`)
                 }else {
                   document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
                   document.getElementById("verified").classList.remove('ficha')
+                  notFlagged = true 
                 }
+
             }
         });
-        document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
-        document.getElementById("verified").classList.remove('ficha')
+        //TODO
+        // The code above will only show verified if it's in flagged array 
+        // We need to be able to show verified even when site has not been flagged 
+        if (notFlagged) {
+          document.getElementById("cleanSite").innerHTML = `This is a trusted new site`
+          document.getElementById("verified").classList.remove('ficha')
+        }
+      
     })
   })
 
@@ -53,7 +64,7 @@ document.addEventListener(
       
           if( article && article.url === data.url && !article.users.includes(ip) ){
               article.count += 1
-              articlesRef.child("users").push(ip)
+              articlesRef.child("users").update(ip)
               return articlesRef.update(article)
           }else if (!article){
             articlesRef.set({...data,'users':[ip]})
@@ -108,7 +119,7 @@ document.addEventListener(
             }
     
             flagSite(fake, extractHostname(currentTab.url))
-            show(`${currentTab.url} has been flagged as fake news site`)
+            show(`This site has been flagged as fake news site`)
         })
     })
 
@@ -124,7 +135,7 @@ const show = (message = "This site is most likely a fake news site") => {
     var hour = time[1] % 12 || 12;               
     var period = time[1] < 12 ? 'a.m.' : 'p.m.'; 
     new Notification(hour + time[2] + ' ' + period, {
-      icon: 'icon.png',
+      icon: 'malicious.png',
       body: message
     });
   }
