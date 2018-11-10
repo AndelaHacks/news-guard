@@ -26,14 +26,27 @@ document.addEventListener(
       console.log(getIP())
 
       const database = firebase.database()
-      const flaggedRef = database.ref(`flagged_articles/${domain.replace(/\./g, "_")}`)
-       flaggedRef.once('value').then(function(snapshot) {
+      const articlesRef = database.ref(`articles/${domain.replace(/\./g, "_")}`)
+      const flaggers = database.ref(`flaggers/articles`)
+
+      const ip = getIP().replace(/\n/g,'')
+       articlesRef.once('value').then(function(snapshot) {
           let article = snapshot.val() 
-          if(article.url === data.url){
+        
+
+          if( article && article.url === data.url && !article.users.includes(ip) ){
               article.count += 1
-              return flaggedRef.update(article)
-          }else{
-            flaggedRef.set(data)
+              articlesRef.child("users").push(ip.replace(/[^a-zA-Z ]/g,""))
+              return articlesRef.update(article)
+          }else if (!article){
+            articlesRef.set({...data,'users':[ip]})
+            flaggers.set({[getIP()]:data.url})
+          }
+          else if(article &&  article.url === data.url && article.users.includes(ip)){
+            return;
+          }
+          else{
+            return;
           }
       });
       return ;
@@ -41,13 +54,10 @@ document.addEventListener(
     }
 
     const getIP = ()=>{
-      var xhr = new XMLHttpRequest();
-
+    var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://icanhazip.com/", false);
     xhr.send();
-
-      var result = xhr.responseText;
-      return result
+     return xhr.responseText;
     }
 
     const extractHostname = (url) => {
