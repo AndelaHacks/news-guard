@@ -39,9 +39,10 @@ document.addEventListener(
         //TODO
         // The code above will only show verified if it's in flagged array 
         // We need to be able to show verified even when site has not been flagged 
-        if (notFlagged) {
-          document.getElementById("flaggedTitle").innerHTML = `This is a trusted new site`
-          document.getElementById("verified").classList.remove('ficha')
+        const verified = document.getElementById("flaggedTitle").innerHTML
+        const nonVerified =document.getElementById("flaggedTitle").innerHTML
+        if (verified !== "This is a trusted new site" && nonVerified !== "Fake News Alert" ) {
+          document.getElementById("flaggedTitle").innerHTML = `News Guard`
         }
       
     })
