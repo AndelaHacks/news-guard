@@ -36,7 +36,7 @@ document.addEventListener(
 
           if( article && article.url === data.url && !article.users.includes(ip) ){
               article.count += 1
-              articlesRef.child("users").push(ip.replace(/[^a-zA-Z ]/g,""))
+              articlesRef.child("users").push(ip)
               return articlesRef.update(article)
           }else if (!article){
             articlesRef.set({...data,'users':[ip]})
